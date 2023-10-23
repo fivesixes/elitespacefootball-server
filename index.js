@@ -26,10 +26,9 @@ const corsOptions = {
   },
 };
 
+app.use(cors(corsOptions));
 app.use(bodyParser.urlencoded({ limit: '30mb', extended: true }));
 app.use(bodyParser.json({ limit: '30mb', extended: true }));
-
-app.use(cors(corsOptions));
 
 app.use('/academy/roster', rosterRoutes);
 
