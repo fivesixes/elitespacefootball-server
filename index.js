@@ -24,9 +24,11 @@ const corsOptions = {
       callback(new Error('Not allowed by CORS'));
     }
   },
+  credentials: true
 };
 
-app.use(cors(corsOptions, {credentials: true, origin: true}));
+
+app.use(cors(corsOptions));
 app.use(bodyParser.urlencoded({ limit: '30mb', extended: true }));
 app.use(bodyParser.json({ limit: '30mb', extended: true }));
 
