@@ -11,24 +11,7 @@ dotenv.config();
 
 const PORT = process.env.PORT || 5000;
 
-const allowedOrigins = [
-  'https://elitespacefootball-client.web.app',
-  'https://www.elitespacefootball.com'
-];
-
-const corsOptions = {
-  origin: function (origin, callback) {
-    if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
-  credentials: true
-};
-
-
-app.use(cors(corsOptions));
+app.use(cors({ origin: 'https://elitespacefootball-client.web.app', credentials: true }));
 app.use(bodyParser.urlencoded({ limit: '30mb', extended: true }));
 app.use(bodyParser.json({ limit: '30mb', extended: true }));
 
