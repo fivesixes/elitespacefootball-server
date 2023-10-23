@@ -13,7 +13,7 @@ const PORT = process.env.PORT || 5000;
 
 const allowedOrigins = [
   'https://elitespacefootball-client.web.app',
-  // Add any other origins as needed
+  'https://www.elitespacefootball.com'
 ];
 
 const corsOptions = {
@@ -26,9 +26,10 @@ const corsOptions = {
   },
 };
 
-app.use(cors(corsOptions));
 app.use(bodyParser.urlencoded({ limit: '30mb', extended: true }));
 app.use(bodyParser.json({ limit: '30mb', extended: true }));
+
+app.use(cors(corsOptions));
 
 app.use('/academy/roster', rosterRoutes);
 
