@@ -7,11 +7,19 @@ import dotenv from 'dotenv';
 import rosterRoutes from './routes/roster.js';
 
 const app = express();
-app.use(cors());
 dotenv.config();
 
 const PORT = process.env.PORT || 5000;
 
+app.use(cors());
+app.options('*', cors());
+var allowCrossDomain = function(req,res,next) {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'GET, PUT, POST, DELETE');
+  res.header('Access-Control-Allow-Headers', 'Content-Type');
+  next();  
+}
+app.use(allowCrossDomain);
 app.use(bodyParser.urlencoded({ limit: '30mb', extended: true }));
 app.use(bodyParser.json({ limit: '30mb', extended: true }));
 
