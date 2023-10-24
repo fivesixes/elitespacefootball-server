@@ -7,11 +7,11 @@ import dotenv from 'dotenv';
 import rosterRoutes from './routes/roster.js';
 
 const app = express();
+app.use(cors());
 dotenv.config();
 
 const PORT = process.env.PORT || 5000;
 
-app.use(cors());
 app.use(bodyParser.urlencoded({ limit: '30mb', extended: true }));
 app.use(bodyParser.json({ limit: '30mb', extended: true }));
 
