@@ -5,6 +5,7 @@ import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 
 import rosterRoutes from './routes/roster.js';
+import adminRoutes from './routes/admin.js';
 
 const app = express();
 dotenv.config();
@@ -24,6 +25,7 @@ app.use(bodyParser.urlencoded({ limit: '30mb', extended: true }));
 app.use(bodyParser.json({ limit: '30mb', extended: true }));
 
 app.use('/academy/roster', rosterRoutes);
+app.use('/admin', adminRoutes);
 
 app.get('/', (req, res) => {
   res.send('APP IS RUNNING');

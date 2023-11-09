@@ -17,13 +17,29 @@ export const getEntries = async ( req, res ) => {
   }
 }
 
-export const getEntry = async ( req, res ) => {
+export const getEntrybyId = async ( req, res ) => {
 
   const { id } = req.params;
   try {
     const entry = await Entry.findById(id);
 
     res.status(200).json(entry);
+  }
+  catch (error) {
+    res.status(404).json( { message: error.message } );
+
+    console.log(error.message);
+  }
+}
+
+export const getEntriesbyLastName = async ( req, res ) => {
+
+  const { lastName } = req.params;
+
+  try {
+    const entries = await Entry.find({ lastName: lastName });
+
+    res.status(200).json(entries);
   }
   catch (error) {
     res.status(404).json( { message: error.message } );
@@ -56,7 +72,7 @@ export const updateEntry = async ( req, res ) => {
   const { id: _id } = req.params;
   const entry = req.body;
 
-  if (!mongoose.Types.ObjectId.isValid(_id)) return res.status(404).send('No entery with that ID');
+  if (!mongoose.Types.ObjectId.isValid(_id)) return res.status(404).send('No entry with that ID');
 
   const updatedEntry = await Entry.findByIdAndUpdate(_id, { ...entry, _id }, { new: true });
 
