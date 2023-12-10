@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 import AdminEntry from '../models/admin.js';
-import { generateRandomToken } from '../customFunctionality/admin.js';
+import { generateRandomToken } from '../utils/admin.js';
 
 export const createAdmin = async (req, res) => {
 
@@ -11,7 +11,6 @@ export const createAdmin = async (req, res) => {
 
   try {
     const adminEntries = await AdminEntry.find();
-    console.log('New test');
     if (!adminEntries.length) {
       await newAdminEntry.save();
     }
@@ -71,15 +70,36 @@ export const createAdmin = async (req, res) => {
 export const adminAuth = async (req, res) => {
   
   const { email, password } = req.body;
-  console.log(email, password);
-
-  console.log(`Trying to auth this email: ${email}`);
 
   try {
     const admin = await AdminEntry.findOne( { email: email } );
-    console.log(admin);
+
+    if (admin) {
+      if (admin.password !== password) {
+        throw new Error('Password incorrect');
+      }
+
+      res.status(200).json( { message: "Successfully signed in", user: admin, status: 200 } );
+      console.log("Successfully signed in");
+    }
+    else {
+      throw new Error('User not found');
+    }
   }
   catch (error) {
-    res.status(404).json( { message: error.message } )
+    console.log(error.message);
+    switch (error.message) {
+      case 'User not found':
+        res.status(404).json( { message: error.message } );
+        break;
+        
+      case 'Password incorrect':
+        res.status(401).json( { message: error.message } );
+        break;
+
+      default:
+        res.status(404).json( { message: error.message } );
+        return;
+    }
   }
 }

@@ -17,6 +17,31 @@ export const getEntries = async ( req, res ) => {
   }
 }
 
+export const quickGetEntries = async ( req, res ) => {
+
+  try {
+    const entries = await Entry.find();
+
+    const quickEntries = entries.map((entry) => {
+      console.log(entry.positions[0]);
+      return {
+        profilePhoto: entry.passportPhoto,
+        firstName: entry.firstName,
+        lastName: entry.lastName,
+        height: entry.height,
+        positionShortHand: entry.positions[0].shorthand,
+      }
+    }); 
+    console.log(quickEntries);
+    res.status(200).json(quickEntries);
+  }
+  catch (error) {
+    res.status(404).json( { message: error.message } );
+
+    console.log(error.message);
+  }
+}
+
 export const getEntrybyId = async ( req, res ) => {
 
   const { id } = req.params;
@@ -75,6 +100,7 @@ export const updateEntry = async ( req, res ) => {
   if (!mongoose.Types.ObjectId.isValid(_id)) return res.status(404).send('No entry with that ID');
 
   const updatedEntry = await Entry.findByIdAndUpdate(_id, { ...entry, _id }, { new: true });
+  console.log('updated successfully');
 
   res.json(updatedEntry);
 }

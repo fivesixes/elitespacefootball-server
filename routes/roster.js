@@ -1,10 +1,11 @@
 import express from 'express';
 
-import { getEntries, createEntry, updateEntry, deleteEntry, getEntrybyId, getEntriesbyLastName } from '../controllers/roster.js';
+import { getEntries, createEntry, updateEntry, deleteEntry, getEntrybyId, getEntriesbyLastName, quickGetEntries } from '../controllers/roster.js';
 
 const router = express.Router();
 
 router.get('/', getEntries);
+router.get('/quick', quickGetEntries);
 router.post('/create', createEntry);
 router.patch('/:id', updateEntry);
 router.delete('/:id', deleteEntry);
